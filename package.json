@@ -1,0 +1,38 @@
+{
+  "name": "NW.js-svelte-boilerplate",
+  "version": "0.0.1",
+  "main": "http://localhost:8080/",
+  "node-remote": "*://localhost/*",
+  "build": {
+    "nwFlavor": "sdk",
+    "nwVersion": "stable",
+    "excludes": [
+      "src/**",
+      "webpack.config.js",
+      "node_modules/**"
+    ],
+    "strippedProperties": [
+      "scripts",
+      "devDependencies",
+      "build",
+      "node-remote",
+      "dependencies"
+    ]
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "nwjs-builder-phoenix": "^1",
+    "parallelshell": "^2",
+    "svelte": "^1",
+    "svelte-loader": "^2",
+    "webpack": "^2",
+    "webpack-dev-server": "^2"
+  },
+  "scripts": {
+    "start-webpackdevserver": "webpack-dev-server",
+    "start-nw": "run --x86 .",
+    "start": "parallelshell \"npm run start-webpackdevserver\" \"npm run start-nw\"",
+    "dist": "webpack --display-error-details && build --tasks win-x86 . && node src/scripts/prepare_dist.js"
+  }
+}
