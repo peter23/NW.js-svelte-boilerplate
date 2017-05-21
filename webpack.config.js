@@ -13,7 +13,6 @@ module.exports = {
 		chunkFilename: '[name].[id].js'
 	},
 	plugins: [
-		//new webpack.optimize.UglifyJsPlugin()
 	],
 	module: {
 		loaders: [
@@ -25,7 +24,7 @@ module.exports = {
 		]
 	},
 	target: 'node-webkit',
-	devtool: 'inline-source-map',
+	devtool: 'source-map',
 	devServer: {
 		contentBase: __dirname + '/app/'
 	}
