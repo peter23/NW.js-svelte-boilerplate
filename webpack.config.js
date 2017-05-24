@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
 	entry: {
@@ -13,6 +14,7 @@ module.exports = {
 		chunkFilename: '[name].[id].js'
 	},
 	plugins: [
+		new ExtractTextPlugin('styles.css')
 	],
 	module: {
 		loaders: [
@@ -20,7 +22,14 @@ module.exports = {
 				test: /\.html$/,
 				exclude: /node_modules/,
 				loader: 'svelte-loader'
-			}
+			},
+			{
+				test: /\.css$/,
+				loader: ExtractTextPlugin.extract({
+					fallback: 'style-loader',
+					use: 'css-loader?sourceMap'
+				})
+			},
 		]
 	},
 	target: 'node-webkit',
