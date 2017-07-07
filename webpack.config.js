@@ -17,15 +17,15 @@ module.exports = {
 		new ExtractTextPlugin('styles.css')
 	],
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /\.html$/,
 				exclude: /node_modules/,
-				loader: 'svelte-loader'
+				use: 'svelte-loader'
 			},
 			{
 				test: /\.css$/,
-				loader: ExtractTextPlugin.extract({
+				use: ExtractTextPlugin.extract({
 					fallback: 'style-loader',
 					use: 'css-loader?sourceMap'
 				})

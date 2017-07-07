@@ -9,7 +9,8 @@
     "excludes": [
       "src/**",
       "webpack.config.js",
-      "node_modules/**"
+      "node_modules/**",
+      "package-lock.json"
     ],
     "strippedProperties": [
       "scripts",
@@ -37,6 +38,7 @@
     "start-nw": "run --x86 .",
     "start": "parallelshell \"npm run start-webpackdevserver\" \"npm run start-nw\"",
     "webpack": "webpack --optimize-minimize --display-error-details --progress",
-    "dist": "npm run webpack && build --tasks win-x86 . && node src/scripts/prepare_dist.js"
+    "build-nw": "build --tasks win-x86 . && node src/scripts/prepare_dist.js",
+    "dist": "npm run webpack && npm run build-nw"
   }
 }
