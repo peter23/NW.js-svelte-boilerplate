@@ -1,5 +1,6 @@
-const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const Webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 
 module.exports = {
 	entry: {
@@ -14,27 +15,42 @@ module.exports = {
 		chunkFilename: '[name].[id].js'
 	},
 	plugins: [
-		new ExtractTextPlugin('styles.css')
+		new MiniCssExtractPlugin({filename: '[name].css'})
 	],
 	module: {
 		rules: [
 			{
 				test: /\.html$/,
 				exclude: /node_modules/,
-				use: 'svelte-loader'
+				use: {
+					loader: 'svelte-loader',
+					options: {
+						emitCss: true,
+						hotReload: true,
+					},
+				}
 			},
 			{
 				test: /\.css$/,
-				use: ExtractTextPlugin.extract({
-					fallback: 'style-loader',
-					use: 'css-loader?sourceMap'
-				})
+				use: [
+					MiniCssExtractPlugin.loader,
+					{
+						loader: 'css-loader',
+						options: {
+							sourceMap: true,
+						}
+					}
+				]
 			},
 		]
 	},
 	target: 'node-webkit',
 	devtool: 'source-map',
+	mode: 'development',
 	devServer: {
 		contentBase: __dirname + '/app/'
-	}
+	},
+	externals: {
+		setImmediate: 'global.setImmediate',
+	},
 };
