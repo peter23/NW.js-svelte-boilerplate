@@ -25,6 +25,7 @@
     "css-loader": "^1.0.0",
     "mini-css-extract-plugin": "^0.4.1",
     "nwjs-builder-phoenix": "^1.14.8",
+    "optimize-css-assets-webpack-plugin": "^5.0.0",
     "parallelshell": "^3.0.2",
     "svelte": "^2.11.0",
     "svelte-loader": "^2.10.1",

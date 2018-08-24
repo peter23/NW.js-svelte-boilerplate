@@ -1,5 +1,10 @@
+
+const is_dev_server = process.argv[1].match(/webpack-dev-server/);
+
+
 const Webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 
 module.exports = {
@@ -14,9 +19,8 @@ module.exports = {
 		filename: '[name].js',
 		chunkFilename: '[name].[id].js'
 	},
-	plugins: [
-		new MiniCssExtractPlugin({filename: '[name].css'})
-	],
+	target: 'node-webkit',
+	mode: is_dev_server ? 'development' : 'production',
 	module: {
 		rules: [
 			{
@@ -26,7 +30,7 @@ module.exports = {
 					loader: 'svelte-loader',
 					options: {
 						emitCss: true,
-						hotReload: true,
+						hotReload: is_dev_server ? true : false,
 					},
 				}
 			},
@@ -37,20 +41,22 @@ module.exports = {
 					{
 						loader: 'css-loader',
 						options: {
-							sourceMap: true,
+							sourceMap: is_dev_server ? true : false,
 						}
 					}
 				]
 			},
 		]
 	},
-	target: 'node-webkit',
-	devtool: 'source-map',
-	mode: 'development',
-	devServer: {
-		contentBase: __dirname + '/app/'
-	},
+	plugins: [
+		new MiniCssExtractPlugin({filename: '[name].css'}),
+		is_dev_server ? ()=>{} : new OptimizeCssAssetsPlugin()
+	],
 	externals: {
 		setImmediate: 'global.setImmediate',
+	},
+	devtool: is_dev_server ? 'cheap-module-eval-source-map' : false,
+	devServer: {
+		contentBase: __dirname + '/app/'
 	},
 };
